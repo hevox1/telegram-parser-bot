@@ -10,6 +10,7 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=lo
 
 
 async def main():
+    # подключаем роутеры
     dp.include_router(user_router)
     await dp.start_polling(bot)
 
