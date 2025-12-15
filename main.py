@@ -1,19 +1,16 @@
-from aiogram.filters import Command
-from aiogram.types import Message
 import asyncio
 import logging
 from loader import dp, bot
+
+# Импорт роутеров
+from handlers.user import router as user_router
 
 # Настройка логирования
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 
-@dp.message(Command('start'))
-async def start(message: Message):
-    await message.answer("Привет, я бот парсер.\nПока я нахожусь в разработке и доступны лишь немногие функции")
-
-
 async def main():
+    dp.include_router(user_router)
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
