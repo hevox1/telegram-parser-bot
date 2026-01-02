@@ -1,6 +1,7 @@
 import asyncio
 import logging
-from loader import dp, bot
+from loader import dp, bot, init_db
+from handlers.admin import admin
 
 # Импорт роутеров
 from handlers.user import router as user_router
@@ -12,12 +13,14 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=lo
 logger = logging.getLogger(__name__)
 
 async def main():
+    db = await init_db()
+    admin.db = db # передаем дб в хендлерс
     # подключаем роутеры
     dp.include_router(user_router)
     dp.include_router(admin_router)
     dp.include_router(state_admin_router)
+    logging.info('Бот успешно запущен')
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
-    logging.info('Бот успешно запущен')
     asyncio.run(main())

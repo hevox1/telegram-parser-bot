@@ -2,6 +2,8 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
+
+from database import db
 from keyboards.inline import inline_keyboard_confirm, inline_keyboard_cancel
 
 router = Router()
@@ -40,7 +42,9 @@ async def process_url(message: Message, state: FSMContext):
 @router.callback_query(AdminAddSource.confirm, F.data=="yes_confirm")
 async def confirm_add(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
-#     Тут позже будет сохранение в бд
+#     сохранение в бд
+    await db.add_source(data['name'], data['url'])
+
     await state.clear()
     await callback.message.answer("✅Источник добавлен!")
 
@@ -53,7 +57,7 @@ async def confirm_add(callback: CallbackQuery, state: FSMContext):
 
 
 @router.callback_query(F.data=="cancel")
-async def cancel(message: Message, state: FSMContext):
+async def cancel(callback: CallbackQuery, state: FSMContext):
     await state.clear()
-    await message.answer('❌Действие отменено')
+    await callback.message.answer('❌Действие отменено')
 
