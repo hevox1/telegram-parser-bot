@@ -1,7 +1,6 @@
 import asyncio
 import logging
-from loader import dp, bot
-from handlers.admin import admin
+from loader import dp, bot, db
 
 # Импорт роутеров
 from handlers.user import router as user_router
@@ -13,6 +12,9 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=lo
 logger = logging.getLogger(__name__)
 
 async def main():
+
+    await db.connect()
+
     # подключаем роутеры
     dp.include_router(user_router)
     dp.include_router(admin_router)

@@ -11,8 +11,8 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = [7313627424]
 
 # данные бд
+DB_NAME = 'hevox_bot_parser'
+DB_USER = 'postgres'
+DB_PASS = 'hevox_postgresql'
 DB_HOST = 'localhost'
 DB_PORT = 5432
-DB_NAME = 'bot_db'
-DB_USER = 'postgres'
-DB_PASS = 'password'

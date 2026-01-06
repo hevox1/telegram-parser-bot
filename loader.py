@@ -11,4 +11,3 @@ storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
 
 db = Database()
-db.create_tables()
