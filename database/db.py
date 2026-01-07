@@ -44,8 +44,8 @@ class Database:
     async def add_source(self, name, url):
         query = """
         INSERT INTO sources (name, url) 
-        VALUES (1$, 2$)
+        VALUES ($1, $2)
         """
         """берём соединение из пула"""
-        async with self.pool.aquire() as conn:
+        async with self.pool.acquire() as conn:
             await conn.execute(query, name, url)

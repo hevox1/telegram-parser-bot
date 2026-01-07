@@ -43,7 +43,7 @@ async def process_url(message: Message, state: FSMContext):
 async def confirm_add(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
 #     сохранение в бд
-    db.add_source(data['name'], data['url'])
+    await db.add_source(data['name'], data['url'])
 
     await state.clear()
     await callback.message.answer("✅Источник добавлен в базу данных!",
