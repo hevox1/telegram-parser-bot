@@ -9,6 +9,7 @@ from keyboards.inline import inline_keyboard_confirm, inline_keyboard_cancel
 router = Router()
 
 class AdminAddSource(StatesGroup):
+    """Class FSM состояний"""
     waiting_for_name = State()
     waiting_for_url = State()
     confirm = State()
@@ -16,6 +17,7 @@ class AdminAddSource(StatesGroup):
 
 @router.callback_query(F.data=="new_source")
 async def start_add_source(callback: CallbackQuery, state: FSMContext):
+    """Функция добавления источников в базу данных, старт FSM"""
     await state.set_state(AdminAddSource.waiting_for_name)
     await callback.message.answer('Введите название источника: ',
                                   reply_markup=inline_keyboard_cancel)
@@ -52,6 +54,7 @@ async def confirm_add(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(AdminAddSource.confirm, F.data=="no_confirm")
 async def confirm_add(callback: CallbackQuery, state: FSMContext):
+    """Если пользователь не подтвердил добавление"""
     await state.clear()
     await state.set_state(AdminAddSource.waiting_for_name)
     await callback.message.answer('Хорошо, тогда начнем заново.\nВведите название источника: ')
@@ -59,6 +62,7 @@ async def confirm_add(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(F.data=="cancel")
 async def cancel(callback: CallbackQuery, state: FSMContext):
+    """Отмена действий, очищаем FSM"""
     await state.clear()
     await callback.message.answer('❌Действие отменено')
 
